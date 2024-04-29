@@ -48,6 +48,10 @@ function GetBoards() {
   return (
     <>
       <button type='submit' onClick={(e) => addJoinClickHandler(e)}>회원가입</button>
+  
+
+  return (
+    <>
       <table border={1}>
         <thead>
             <tr>
