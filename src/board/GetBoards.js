@@ -40,10 +40,14 @@ function GetBoards() {
     window.location.href='http://localhost:3000/boards/create'
   }
 
-  
+  const addJoinClickHandler = (e) => {
+    e.preventDefault();
+    window.location.href='http://localhost:3000/join';
+  }
 
   return (
     <>
+      <button type='submit' onClick={(e) => addJoinClickHandler(e)}>회원가입</button>
       <table border={1}>
         <thead>
             <tr>
