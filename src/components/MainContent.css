@@ -1,0 +1,44 @@
+.main-content {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-content h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.content-nav {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem 0;
+}
+
+.content-nav a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.content-nav a:hover {
+  color: #333;
+}
+
+.content-sections {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-section,
+.announcement-section {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.announcement-section {
+  margin-right: 0;
+}

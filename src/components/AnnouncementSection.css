@@ -1,0 +1,28 @@
+.announcement-section {
+    margin: 2rem 0;
+  }
+  
+  .announcement-section h2 {
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .announcement-item {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+  }
+  
+  .announcement-item span {
+    display: block;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .announcement-item p {
+    margin: 0.5rem 0 0;
+    color: #666;
+  }
+  
