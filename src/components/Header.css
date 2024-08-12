@@ -2,57 +2,54 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .header-left h1 {
-  margin-right: 2rem;
+  margin: 0;
+  font-size: 1.5rem;
   color: #333;
   cursor: pointer;
 }
 
 .nav ul {
-  display: flex;
   list-style: none;
-  padding: 0;
+  display: flex;
+  gap: 1rem;
   margin: 0;
+  padding: 0;
 }
 
-.nav li {
-  margin-right: 1.5rem;
-}
-
-.nav a {
-  text-decoration: none;
+.nav ul li button {
+  background: none;
+  border: none;
   color: #333;
+  cursor: pointer;
+  font-size: 1rem;
   transition: color 0.3s ease;
 }
 
-.nav a:hover {
+.nav ul li button:hover {
   color: #333;
 }
 
 .header-right {
   display: flex;
-  align-items: center;
+  gap: 1rem;
 }
 
-.info-button,
-.login-button {
+.info-button, .login-button, .signup-button {
+  padding: 0.5rem 1rem;
   background-color: #333;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
   border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  margin-left: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.info-button:hover,
-.login-button:hover {
+.info-button:hover, .login-button:hover, .signup-button:hover {
   background-color: #333;
-  color: white;
 }

@@ -42,3 +42,16 @@
 .announcement-section {
   margin-right: 0;
 }
+.nav button, .content-nav button {
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav button:hover, .content-nav button:hover {
+  color: #333;
+}

@@ -17,4 +17,9 @@
   .profile-details p {
     margin: 0.5rem 0;
   }
+  .post-content {
+    white-space: pre-wrap; /* 줄바꿈을 적용 */
+    word-wrap: break-word; /* 긴 단어가 있을 때 줄바꿈 적용 */
+  }
+  
   

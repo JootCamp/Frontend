@@ -1,6 +1,4 @@
 import React from 'react';
-import InfoSection from './InfoSection';
-import AnnouncementSection from './AnnouncementSection';
 import './MainContent.css';
 
 const MainContent = () => {
@@ -8,13 +6,12 @@ const MainContent = () => {
     <main className="main-content">
       <h2>Welcome to Zootcamp</h2>
       <nav className="content-nav">
-        <a href="#">All Content</a>
-        <a href="#">Announcements</a>
-        <a href="#">My Information</a>
+        <button onClick={() => alert('All Content clicked')}>All Content</button>
+        <button onClick={() => alert('Announcements clicked')}>Announcements</button>
+        <button onClick={() => alert('My Information clicked')}>My Information</button>
       </nav>
       <div className="content-sections">
-        <InfoSection />
-        <AnnouncementSection />
+        {/* Your sections go here */}
       </div>
     </main>
   );

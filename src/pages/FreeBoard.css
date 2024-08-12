@@ -1,0 +1,74 @@
+.freeboard-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: #333; /* 글자 색깔 테마를 #333으로 통일 */
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .post-list {
+    margin-bottom: 2rem;
+  }
+  
+  .post-item {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .post-item:hover {
+    background-color: #e9e9e9;
+  }
+  
+  .post-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .post-title {
+    margin: 0;
+    color: #007bff;
+  }
+  
+  .post-meta {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .post-author, .post-views {
+    color: #666;
+  }
+  
+  .write-button {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    padding: 0.75rem 1.5rem; /* 버튼 크기 확대 */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px; /* 네모난 모양으로 변경 */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-size: 1rem; /* 버튼 글자 크기 조정 */
+  }
+  
+  .write-button:hover {
+    background-color: #0056b3;
+  }
+  
+  

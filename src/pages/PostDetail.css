@@ -1,53 +1,124 @@
 .post-detail-container {
-    padding: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .comments-section {
-    margin-top: 2rem;
-  }
-  
-  .comments-list {
-    margin-bottom: 1rem;
-  }
-  
-  .comment-item {
-    padding: 0.5rem 1rem;
-    margin-bottom: 0.5rem;
-    background-color: #f9f9f9;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-  }
-  
-  .comment-form {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .comment-form input {
-    width: 80%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .comment-form button {
-    width: 18%;
-    padding: 0.5rem;
-    background-color: #666;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .comment-form button:hover {
-    background-color: #666;
-  }
-  
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.post-meta {
+  margin-top: 1rem;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete-post-button {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: #ffcccc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-end;
+}
+
+.delete-post-button:hover {
+  background-color: #ff9999;
+}
+
+.comments-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #fff; /* 전체 배경을 흰색으로 설정 */
+  border-radius: 8px; /* 댓글 창의 모서리를 둥글게 */
+  /*border: 1px solid #000;  댓글 창의 검은색 테두리 */
+}
+
+.comments-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px; /* 댓글 부분의 모서리를 둥글게 */
+  /*border: 1px solid #000;  댓글 부분의 검은색 테두리 */
+  background-color: #f9f9f9; /* 댓글 부분의 배경색 */
+}
+
+.comment-date {
+  flex: 0 0 20%;
+  font-size: 0.8rem;
+  color: #999;
+  text-align: left;
+}
+
+.comment-content {
+  flex: 1;
+  padding: 0.5rem;
+  background-color: #fff; /* 댓글 내용 부분의 배경색 */
+  border-radius: 4px;
+  text-align: left;
+  margin-right: 1rem; /* 삭제 버튼과 간격을 유지 */
+  /*border: 1px solid #000;*/
+}
+
+.delete-comment-button {
+  flex: 0 0 15%;
+  padding: 0.3rem;
+  background-color: #ffcccc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.delete-comment-button:hover {
+  background-color: #ff9999;
+}
+
+.comment-form {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-form textarea {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.comment-form button {
+  padding: 0.5rem 1rem;
+  background-color: #cce5ff;
+  color: #0056b3;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-end;
+}
+
+.comment-form button:hover {
+  background-color: #99ccff;
+}
