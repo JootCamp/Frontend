@@ -12,7 +12,7 @@ const PostDetail = () => {
   useEffect(() => {
     const storedPosts = JSON.parse(localStorage.getItem('posts')) || [];
     const selectedPost = storedPosts.find((p) => p.id === parseInt(id));
-    
+
     if (selectedPost) {
       selectedPost.views += 1;
       localStorage.setItem('posts', JSON.stringify(storedPosts));

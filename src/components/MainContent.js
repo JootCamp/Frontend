@@ -4,7 +4,7 @@ import './MainContent.css';
 const MainContent = () => {
   return (
     <main className="main-content">
-      <h2>Welcome to Zootcamp</h2>
+      <h2>Welcome to Jootcamp</h2>
       <nav className="content-nav">
         <button onClick={() => alert('All Content clicked')}>All Content</button>
         <button onClick={() => alert('Announcements clicked')}>Announcements</button>

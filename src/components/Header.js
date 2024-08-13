@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-left">
-        <h1 onClick={() => navigate('/')}>Zootcamp</h1>
+        <h1 onClick={() => navigate('/')}>Jootcamp</h1>
         <nav className="nav">
           <ul>
             <li><button onClick={() => navigate('/freeboard')}>자유게시판</button></li>
