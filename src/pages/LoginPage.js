@@ -1,20 +1,50 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
+
+const API_BASE_URL = 'http://jootcamp.kro.kr';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // 로그인 로직 처리
-    console.log('로그인 시도:', { email, password });
+
+    const loginData = {
+      email,
+      password,
+    };
+
+    fetch(`${API_BASE_URL}/Login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
+      credentials: 'include', // 쿠키를 포함하여 요청
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          navigate('/'); // 로그인 성공 시 메인 페이지로 이동
+        } else {
+          setError('로그인에 실패했습니다. 다시 시도해 주세요.');
+        }
+      })
+      .catch(error => {
+        console.error('Error logging in:', error);
+        setError('서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.');
+      });
   };
 
   return (
     <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
         <h2>로그인</h2>
+        {error && <p className="error-message">{error}</p>} {/* 오류 메시지 표시 */}
         <input
           type="email"
           placeholder="이메일"

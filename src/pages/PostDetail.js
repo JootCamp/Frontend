@@ -2,55 +2,69 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './PostDetail.css';
 
+const API_BASE_URL = 'http://jootcamp.kro.kr';
+
 const PostDetail = () => {
-  const { id } = useParams();
+  const { boardId, postId } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
 
   useEffect(() => {
-    const storedPosts = JSON.parse(localStorage.getItem('posts')) || [];
-    const selectedPost = storedPosts.find((p) => p.id === parseInt(id));
+    // 게시글 상세 정보 조회
+    fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}`)
+      .then(response => response.json())
+      .then(data => {
+        setPost(data);
+        return fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}/comments`);
+      })
+      .then(response => response.json())
+      .then(data => setComments(data))
+      .catch(error => console.error('Error fetching post or comments:', error));
+  }, [boardId, postId]);
 
-    if (selectedPost) {
-      selectedPost.views += 1;
-      localStorage.setItem('posts', JSON.stringify(storedPosts));
-      setPost(selectedPost);
-      setComments(selectedPost.comments || []);
-    }
-  }, [id]);
-
-  const handleAddComment = () => {
+  const handleAddComment = (e) => {
+    e.preventDefault();
     if (newComment.trim() === '') return;
 
-    const updatedComments = [...comments, { text: newComment, date: new Date().toLocaleString() }];
-    setComments(updatedComments);
-    setNewComment('');
+    const commentData = {
+      content: newComment,
+    };
 
-    const storedPosts = JSON.parse(localStorage.getItem('posts')) || [];
-    const updatedPosts = storedPosts.map((p) =>
-      p.id === post.id ? { ...p, comments: updatedComments } : p
-    );
-    localStorage.setItem('posts', JSON.stringify(updatedPosts));
+    fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(commentData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setComments([...comments, data]); // 새 댓글을 기존 댓글에 추가
+        setNewComment(''); // 입력란 초기화
+      })
+      .catch(error => console.error('Error adding comment:', error));
   };
 
-  const handleDeleteComment = (index) => {
-    const updatedComments = comments.filter((_, i) => i !== index);
-    setComments(updatedComments);
-
-    const storedPosts = JSON.parse(localStorage.getItem('posts')) || [];
-    const updatedPosts = storedPosts.map((p) =>
-      p.id === post.id ? { ...p, comments: updatedComments } : p
-    );
-    localStorage.setItem('posts', JSON.stringify(updatedPosts));
+  const handleDeleteComment = (commentId) => {
+    fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}/comments/${commentId}`, {
+      method: 'DELETE',
+    })
+      .then(() => {
+        setComments(comments.filter(comment => comment.id !== commentId));
+      })
+      .catch(error => console.error('Error deleting comment:', error));
   };
 
   const handleDeletePost = () => {
-    const storedPosts = JSON.parse(localStorage.getItem('posts')) || [];
-    const updatedPosts = storedPosts.filter((p) => p.id !== post.id);
-    localStorage.setItem('posts', JSON.stringify(updatedPosts));
-    navigate('/freeboard');
+    fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}`, {
+      method: 'DELETE',
+    })
+      .then(() => {
+        navigate(`/boards/${boardId}`);
+      })
+      .catch(error => console.error('Error deleting post:', error));
   };
 
   if (!post) return <div>해당 글을 찾을 수 없습니다.</div>;
@@ -69,11 +83,11 @@ const PostDetail = () => {
         <h3>댓글</h3>
         {comments.length > 0 ? (
           <ul className="comments-list">
-            {comments.map((comment, index) => (
-              <li key={index} className="comment-item">
-                <span className="comment-date">{comment.date}</span>
-                <p className="comment-content">{comment.text}</p>
-                <button className="delete-comment-button" onClick={() => handleDeleteComment(index)}>댓글 삭제</button>
+            {comments.map((comment) => (
+              <li key={comment.id} className="comment-item">
+                <span className="comment-date">{comment.createdAt}</span>
+                <p className="comment-content">{comment.content}</p>
+                <button className="delete-comment-button" onClick={() => handleDeleteComment(comment.id)}>댓글 삭제</button>
               </li>
             ))}
           </ul>
