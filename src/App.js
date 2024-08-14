@@ -20,9 +20,13 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/freeboard" element={<FreeBoard />} />
-        <Route path="/new-post" element={<NewPost />} />
-        <Route path="/post/:id" element={<PostDetail />} />
         <Route path="/profile" element={<ProfilePage />} />
+        
+        {/* 게시판 관련 라우트 */}
+        <Route path="/boards/:boardId" element={<FreeBoard />} />
+        <Route path="/boards/:boardId/new-post" element={<NewPost />} />
+        <Route path="/boards/:boardId/posts/:postId" element={<PostDetail />} />
+        <Route path="/boards/:boardId/posts/:postId/edit" element={<NewPost />} /> {/* 수정 시 NewPost 재사용 */}
       </Routes>
     </Router>
   );

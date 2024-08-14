@@ -1,28 +1,36 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './NewPost.css';
+
+const API_BASE_URL = 'http://jootcamp.kro.kr';
 
 const NewPost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const { boardId } = useParams(); // 현재 게시판 ID 가져오기
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newPost = {
-      id: Date.now(),
       title,
       content,
       author: '익명', // 로그인 기능이 있다면 실제 사용자 정보로 교체
-      views: 0,
     };
     
-    // 기존의 게시글 리스트를 localStorage에서 가져옴
-    const storedPosts = JSON.parse(localStorage.getItem('posts')) || [];
-    storedPosts.push(newPost); // 새로운 게시글을 추가
-    localStorage.setItem('posts', JSON.stringify(storedPosts)); // 업데이트된 리스트를 저장
-    
-    navigate('/freeboard'); // 게시판 페이지로 이동
+    // API 호출하여 새로운 게시글 생성
+    fetch(`${API_BASE_URL}/boards/${boardId}/posts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newPost),
+    })
+      .then(response => response.json())
+      .then(() => {
+        navigate(`/boards/${boardId}`); // 해당 게시판 페이지로 이동
+      })
+      .catch(error => console.error('Error creating post:', error));
   };
 
   return (
