@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
 
-const API_BASE_URL = 'http://jootcamp.kro.kr';
+const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const Header = () => {
   const [user, setUser] = useState(null); // 로그인 상태를 관리할 state

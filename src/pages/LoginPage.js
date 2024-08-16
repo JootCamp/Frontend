@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
-const API_BASE_URL = 'http://jootcamp.kro.kr';
+const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +18,7 @@ const LoginPage = () => {
       password,
     };
 
-    fetch(`${API_BASE_URL}/Login`, {
+    fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

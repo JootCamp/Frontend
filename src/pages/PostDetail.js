@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './PostDetail.css';
 
-const API_BASE_URL = 'http://jootcamp.kro.kr';  // API 기본 URL 설정
+const API_BASE_URL = 'http://13.125.19.45:8080';  // API 기본 URL 설정
 
 const PostDetail = () => {
   const { boardId, postId } = useParams(); // 게시글의 ID를 URL에서 가져옵니다.

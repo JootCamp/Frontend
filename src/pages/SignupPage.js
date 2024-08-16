@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignupPage.css';
 
-const API_BASE_URL = 'http://jootcamp.kro.kr';
+const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');

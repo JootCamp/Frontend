@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './FreeBoard.css';
 
-const API_BASE_URL = 'http://jootcamp.kro.kr';
+const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const FreeBoard = () => {
   const [posts, setPosts] = useState([]); // 게시글 데이터를 관리할 상태
