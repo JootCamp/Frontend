@@ -5,13 +5,19 @@ import './NewPost.css';
 const API_BASE_URL = 'http://jootcamp.kro.kr';
 
 const NewPost = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const { boardId } = useParams(); // 현재 게시판 ID 가져오기
-  const navigate = useNavigate();
+  const [title, setTitle] = useState(''); // 제목 상태 관리
+  const [content, setContent] = useState(''); // 내용 상태 관리
+  const { boardId } = useParams(); // URL에서 boardId를 가져옴
+  const navigate = useNavigate(); // 페이지 이동을 위한 훅
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!boardId) {
+      console.error('boardId is undefined.');
+      return;
+    }
+
     const newPost = {
       title,
       content,
@@ -26,9 +32,14 @@ const NewPost = () => {
       },
       body: JSON.stringify(newPost),
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to create post');
+        }
+        return response.json();
+      })
       .then(() => {
-        navigate(`/boards/${boardId}`); // 해당 게시판 페이지로 이동
+        navigate(`/boards/${boardId}`); // 성공 시 해당 게시판 페이지로 이동
       })
       .catch(error => console.error('Error creating post:', error));
   };

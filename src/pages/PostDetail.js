@@ -2,25 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './PostDetail.css';
 
-const API_BASE_URL = 'http://jootcamp.kro.kr';
+const API_BASE_URL = 'http://jootcamp.kro.kr';  // API 기본 URL 설정
 
 const PostDetail = () => {
-  const { boardId, postId } = useParams();
+  const { boardId, postId } = useParams(); // 게시글의 ID를 URL에서 가져옵니다.
   const navigate = useNavigate();
-  const [post, setPost] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('');
+  const [post, setPost] = useState(null); // 현재 게시글을 저장할 상태입니다.
+  const [comments, setComments] = useState([]); // 댓글 목록을 저장할 상태입니다.
+  const [newComment, setNewComment] = useState(''); // 새 댓글을 저장할 상태입니다.
 
   useEffect(() => {
-    // 게시글 상세 정보 조회
+    // 게시글 조회
     fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}`)
       .then(response => response.json())
       .then(data => {
-        setPost(data);
+        setPost(data); // 백엔드에서 받은 게시글 데이터를 상태에 저장합니다.
         return fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}/comments`);
       })
       .then(response => response.json())
-      .then(data => setComments(data))
+      .then(data => setComments(data)) // 댓글 데이터를 상태에 저장합니다.
       .catch(error => console.error('Error fetching post or comments:', error));
   }, [boardId, postId]);
 
@@ -32,6 +32,7 @@ const PostDetail = () => {
       content: newComment,
     };
 
+    // 댓글 작성 API 호출
     fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}/comments`, {
       method: 'POST',
       headers: {
@@ -48,6 +49,7 @@ const PostDetail = () => {
   };
 
   const handleDeleteComment = (commentId) => {
+    // 댓글 삭제 API 호출
     fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}/comments/${commentId}`, {
       method: 'DELETE',
     })
@@ -58,11 +60,12 @@ const PostDetail = () => {
   };
 
   const handleDeletePost = () => {
+    // 게시글 삭제 API 호출
     fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}`, {
       method: 'DELETE',
     })
       .then(() => {
-        navigate(`/boards/${boardId}`);
+        navigate(`/boards/${boardId}`); // 삭제 후 게시판 페이지로 이동
       })
       .catch(error => console.error('Error deleting post:', error));
   };
