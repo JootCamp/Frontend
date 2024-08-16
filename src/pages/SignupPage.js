@@ -5,11 +5,12 @@ import './SignupPage.css';
 const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const SignupPage = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState(''); // 사용자 이름
+  const [email, setEmail] = useState(''); // 이메일
+  const [password, setPassword] = useState(''); // 비밀번호
+  const [confirmPassword, setConfirmPassword] = useState(''); // 비밀번호 확인
+  const [nickName, setNickName] = useState(''); // 닉네임
+  const [error, setError] = useState(''); // 오류 메시지
   const navigate = useNavigate();
 
   const handleSignup = (e) => {
@@ -20,9 +21,10 @@ const SignupPage = () => {
     }
 
     const signupData = {
-      username,
-      email,
-      password,
+      name,        // 이름
+      email,       // 이메일
+      password,    // 비밀번호
+      nickName,    // 닉네임
     };
 
     fetch(`${API_BASE_URL}/signup`, {
@@ -32,7 +34,12 @@ const SignupPage = () => {
       },
       body: JSON.stringify(signupData),
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('회원가입 요청이 실패했습니다.');
+        }
+        return response.json();
+      })
       .then(data => {
         if (data.success) {
           navigate('/login'); // 회원가입 성공 시 로그인 페이지로 이동
@@ -53,9 +60,16 @@ const SignupPage = () => {
         {error && <p className="error-message">{error}</p>} {/* 오류 메시지 표시 */}
         <input
           type="text"
-          placeholder="사용자 이름"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="이름"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="닉네임"
+          value={nickName}
+          onChange={(e) => setNickName(e.target.value)}
           required
         />
         <input

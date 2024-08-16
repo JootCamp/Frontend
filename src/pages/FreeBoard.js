@@ -13,7 +13,11 @@ const FreeBoard = () => {
     // 특정 게시판의 게시글 목록 조회
     fetch(`${API_BASE_URL}/boards/${boardId}/posts`)
       .then(response => response.json())
-      .then(data => setPosts(data))
+      .then(data => {
+        if (data.results) {
+          setPosts(data.results); // 명세서에 따라 results 배열을 사용
+        }
+      })
       .catch(error => console.error('Error fetching posts:', error));
   }, [boardId]);
 
@@ -30,11 +34,20 @@ const FreeBoard = () => {
   };
 
   const handleDeletePost = (postId) => {
-    fetch(`${API_BASE_URL}/boards/${boardId}/posts/${postId}`, {
+    // 게시글 삭제 요청
+    fetch(`${API_BASE_URL}/boards/${boardId}/posts`, {
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ postId }), // 명세서에 따라 postId를 body에 포함
     })
-      .then(() => {
-        setPosts(posts.filter(post => post.id !== postId));
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to delete post');
+        }
+        // 게시글 목록에서 삭제된 게시글 제거
+        setPosts(posts.filter(post => post.pid !== postId));
       })
       .catch(error => console.error('Error deleting post:', error));
   };
@@ -45,14 +58,14 @@ const FreeBoard = () => {
       {posts.length > 0 ? (
         <div className="post-list">
           {posts.map(post => (
-            <div key={post.id} className="post-item">
+            <div key={post.pid} className="post-item">
               <div className="post-info">
-                <h3 className="post-title" onClick={() => handleViewPost(post.id)}>{post.title}</h3>
+                <h3 className="post-title" onClick={() => handleViewPost(post.pid)}>{post.title}</h3>
                 <div className="post-meta">
-                  <span className="post-author">작성자: {post.author}</span>
+                  <span className="post-author">작성자: {post.writer}</span>
                   <span className="post-views">조회수: {post.views}</span>
-                  <button onClick={() => handleUpdatePost(post.id)}>수정</button>
-                  <button onClick={() => handleDeletePost(post.id)}>삭제</button>
+                  <button onClick={() => handleUpdatePost(post.pid)}>수정</button>
+                  <button onClick={() => handleDeletePost(post.pid)}>삭제</button>
                 </div>
               </div>
             </div>

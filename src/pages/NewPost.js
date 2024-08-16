@@ -21,7 +21,7 @@ const NewPost = () => {
     const newPost = {
       title,
       content,
-      author: '익명', // 로그인 기능이 있다면 실제 사용자 정보로 교체
+      bId: boardId, // boardId를 bId로 설정
     };
     
     // API 호출하여 새로운 게시글 생성
