@@ -9,18 +9,20 @@ const Header = () => {
 
   useEffect(() => {
     // 쿠키에서 세션 ID 또는 토큰을 가져옴
-    const sessionId = Cookies.get('sessionId'); // 예: 쿠키 이름이 'sessionId'인 경우
+    const sessionId = Cookies.get('sessionId');
     if (sessionId) {
       // 세션 ID가 존재하면 로그인된 상태로 간주
-      setUser({ sessionId }); // 사용자 정보를 가져올 수 있다면 더 정확하게 설정 가능
+      setUser({ sessionId });
+      console.log('User logged in:', sessionId); // 디버그용
     } else {
       setUser(null);
+      console.log('No session found, user not logged in'); // 디버그용
     }
   }, []);
 
   const handleLogout = () => {
     // 쿠키에서 세션 ID 삭제
-    Cookies.remove('sessionId'); // 예: 쿠키 이름이 'sessionId'인 경우
+    Cookies.remove('sessionId'); // 쿠키 이름이 'sessionId'인 경우
     setUser(null); // 로그아웃 시 user 상태를 null로 설정
     navigate('/'); // 로그아웃 후 메인 페이지로 이동
   };
