@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './pages/Home';
@@ -11,13 +11,16 @@ import ProfilePage from './pages/ProfilePage';
 import SignupPage from './pages/SignupPage';
 
 const App = () => {
+  const [user, setUser] = useState(null); // 로그인 상태를 관리하는 state
+
   return (
     <Router>
-      <Header />
+      {/* Header에 user와 setUser를 전달하여 상태를 관리 */}
+      <Header user={user} setUser={setUser} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage setUser={setUser} />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/freeboard" element={<FreeBoard />} />
         <Route path="/profile" element={<ProfilePage />} />

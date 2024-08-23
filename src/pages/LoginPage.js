@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import './LoginPage.css';
 
 const API_BASE_URL = 'http://13.125.19.45:8080';
 
-const LoginPage = () => {
+const LoginPage = ({ setUser }) => { // setUser를 props로 받아서 사용
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -28,7 +29,12 @@ const LoginPage = () => {
     })
       .then(response => {
         if (response.ok) {
-          navigate('/'); // 로그인 성공 시 메인 페이지로 이동
+          // 로그인 성공 시, 쿠키에서 세션 ID를 가져와서 setUser 호출
+          const sessionId = Cookies.get('sessionId');
+          if (sessionId) {
+            setUser({ sessionId }); // 로그인된 사용자 정보 설정
+          }
+          navigate('/'); // 메인 페이지로 이동
         } else {
           setError('로그인에 실패했습니다. 다시 시도해 주세요.');
         }
