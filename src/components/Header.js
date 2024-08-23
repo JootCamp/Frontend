@@ -8,21 +8,23 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 쿠키에서 세션 ID 또는 토큰을 가져옴
-    const sessionId = Cookies.get('sessionId');
+    // 올바른 쿠키 이름으로 세션 ID 또는 토큰을 가져옴
+    const sessionId = Cookies.get('C8A2BF19A12B56B08B154593B393B878'); // 정확한 쿠키 이름을 사용하세요
+    console.log('쿠키에서 가져온 세션 ID:', sessionId); // 디버깅용
+
     if (sessionId) {
       // 세션 ID가 존재하면 로그인된 상태로 간주
       setUser({ sessionId });
-      console.log('User logged in:', sessionId); // 디버그용
+      console.log('User logged in:', sessionId);
     } else {
       setUser(null);
-      console.log('No session found, user not logged in'); // 디버그용
+      console.log('No session found, user not logged in');
     }
   }, []);
 
   const handleLogout = () => {
     // 쿠키에서 세션 ID 삭제
-    Cookies.remove('sessionId'); // 쿠키 이름이 'sessionId'인 경우
+    Cookies.remove('C8A2BF19A12B56B08B154593B393B878'); // 쿠키 이름에 맞춰 제거
     setUser(null); // 로그아웃 시 user 상태를 null로 설정
     navigate('/'); // 로그아웃 후 메인 페이지로 이동
   };
