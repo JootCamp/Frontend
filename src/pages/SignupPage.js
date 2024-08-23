@@ -9,7 +9,7 @@ const SignupPage = () => {
   const [email, setEmail] = useState(''); // 이메일
   const [password, setPassword] = useState(''); // 비밀번호
   const [confirmPassword, setConfirmPassword] = useState(''); // 비밀번호 확인
-  const [nickName, setNickName] = useState(''); // 닉네임
+  const [nickname, setNickname] = useState(''); // 닉네임
   const [error, setError] = useState(''); // 오류 메시지
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ const SignupPage = () => {
       name,        // 이름
       email,       // 이메일
       password,    // 비밀번호
-      nickName,    // 닉네임
+      nickname,    // 닉네임
     };
 
     fetch(`${API_BASE_URL}/signup`, {
@@ -68,8 +68,8 @@ const SignupPage = () => {
         <input
           type="text"
           placeholder="닉네임"
-          value={nickName}
-          onChange={(e) => setNickName(e.target.value)}
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
           required
         />
         <input
