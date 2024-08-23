@@ -26,9 +26,8 @@ const LoginPage = () => {
       body: JSON.stringify(loginData),
       credentials: 'include', // 쿠키를 포함하여 요청
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
+      .then(response => {
+        if (response.ok) {
           navigate('/'); // 로그인 성공 시 메인 페이지로 이동
         } else {
           setError('로그인에 실패했습니다. 다시 시도해 주세요.');
