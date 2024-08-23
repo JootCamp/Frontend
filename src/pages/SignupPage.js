@@ -19,14 +19,16 @@ const SignupPage = () => {
       setError('비밀번호가 일치하지 않습니다.');
       return;
     }
-
+  
     const signupData = {
       name,        // 이름
       email,       // 이메일
       password,    // 비밀번호
       nickname,    // 닉네임
     };
-
+  
+    console.log('Signup Data:', signupData); // 전송될 데이터를 콘솔에 출력
+  
     fetch(`${API_BASE_URL}/signup`, {
       method: 'POST',
       headers: {
@@ -52,6 +54,7 @@ const SignupPage = () => {
         setError('서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.');
       });
   };
+  
 
   return (
     <div className="signup-container">
