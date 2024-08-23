@@ -1,49 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import './Header.css';
-
-const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const Header = () => {
   const [user, setUser] = useState(null); // 로그인 상태를 관리할 state
-  const [loading, setLoading] = useState(true); // 로딩 상태 관리
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 로그인 상태 확인
-    fetch(`${API_BASE_URL}/isLogin`, {
-      credentials: 'include', // 쿠키를 포함하여 요청
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to check login status');
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.isLoggedIn) {
-          setUser(data.user); // 로그인된 유저 정보를 state에 저장
-        } else {
-          setUser(null); // 로그인되지 않은 상태
-        }
-      })
-      .catch(error => console.error('Error checking login status:', error))
-      .finally(() => setLoading(false)); // 로딩 상태 해제
+    // 쿠키에서 세션 ID 또는 토큰을 가져옴
+    const sessionId = Cookies.get('sessionId'); // 예: 쿠키 이름이 'sessionId'인 경우
+    if (sessionId) {
+      // 세션 ID가 존재하면 로그인된 상태로 간주
+      setUser({ sessionId }); // 사용자 정보를 가져올 수 있다면 더 정확하게 설정 가능
+    } else {
+      setUser(null);
+    }
   }, []);
 
   const handleLogout = () => {
-    fetch(`${API_BASE_URL}/logout`, {
-      method: 'POST',
-      credentials: 'include', // 쿠키를 포함하여 요청
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Logout failed');
-        }
-        setUser(null); // 로그아웃 시 user 상태를 null로 설정
-        navigate('/');
-      })
-      .catch(error => console.error('Error logging out:', error));
+    // 쿠키에서 세션 ID 삭제
+    Cookies.remove('sessionId'); // 예: 쿠키 이름이 'sessionId'인 경우
+    setUser(null); // 로그아웃 시 user 상태를 null로 설정
+    navigate('/'); // 로그아웃 후 메인 페이지로 이동
   };
 
   const handleProfile = () => {
@@ -57,10 +36,6 @@ const Header = () => {
   const handleSignup = () => {
     navigate('/signup');
   };
-
-  if (loading) {
-    return <div>Loading...</div>; // 로딩 중에는 간단한 로딩 메시지 표시
-  }
 
   return (
     <header className="header">
