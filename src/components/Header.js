@@ -1,65 +1,74 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'; // Optional: 쿠키 사용 시
 import './Header.css';
+
+const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const Header = () => {
   const [user, setUser] = useState(null); // 로그인 상태를 관리할 state
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 디버그: 컴포넌트가 마운트될 때 실행됨
-    console.log('Header 컴포넌트 마운트됨');
-
-    const sessionId = Cookies.get('JSESSIONID'); // 쿠키에서 JSESSIONID 가져오기
-    console.log('세션 ID 확인:', sessionId); // 세션 ID 확인 로그
-
-    if (sessionId) {
-      setUser({ sessionId });
-      console.log('로그인 상태로 설정됨:', { sessionId }); // 로그인 상태 설정 로그
-    } else {
-      setUser(null);
-      console.log('로그아웃 상태로 설정됨'); // 로그아웃 상태 설정 로그
-    }
-  }, []); // 컴포넌트 마운트 시 한 번 실행
+    // 로그인 상태 확인을 위한 API 호출
+    fetch(`${API_BASE_URL}/isLogin`, {
+      method: 'GET',
+      credentials: 'include', // 쿠키를 포함하여 요청
+    })
+      .then(response => {
+        if (response.status === 401) {
+          // 401 Unauthorized 상태일 경우 로그인되지 않은 것으로 간주
+          setUser(null);
+        } else if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to verify login status');
+        }
+      })
+      .then(data => {
+        if (data && data.isLoggedIn) {
+          setUser(data.user); // 로그인된 사용자 정보 설정
+        }
+      })
+      .catch(error => {
+        console.error('Error checking login status:', error);
+        setUser(null); // 오류 발생 시에도 로그인되지 않은 상태로 처리
+      });
+  }, []);
 
   const handleLogout = () => {
-    console.log('로그아웃 버튼 클릭됨'); // 디버그: 로그아웃 버튼 클릭 로그
-    Cookies.remove('JSESSIONID'); // 쿠키에서 세션 ID 삭제
-    setUser(null); // 로그아웃 시 user 상태를 null로 설정
-    navigate('/'); // 로그아웃 후 메인 페이지로 이동
-    console.log('로그아웃 처리 완료, 메인 페이지로 이동'); // 로그아웃 처리 완료 로그
+    fetch(`${API_BASE_URL}/logout`, {
+      method: 'POST',
+      credentials: 'include', // 쿠키를 포함하여 요청
+    })
+      .then(() => {
+        setUser(null); // 로그아웃 시 user 상태를 null로 설정
+        navigate('/');
+      })
+      .catch(error => {
+        console.error('Error logging out:', error);
+      });
   };
 
   const handleProfile = () => {
-    console.log('내 정보/로그인 버튼 클릭됨, 현재 user 상태:', user); // 디버그: 버튼 클릭 로그
     if (user) {
       navigate('/profile');
-      console.log('프로필 페이지로 이동'); // 프로필 페이지 이동 로그
     } else {
       navigate('/login');
-      console.log('로그인 페이지로 이동'); // 로그인 페이지 이동 로그
     }
   };
 
   const handleSignup = () => {
-    console.log('회원가입 버튼 클릭됨'); // 디버그: 회원가입 버튼 클릭 로그
     navigate('/signup');
   };
 
   return (
     <header className="header">
       <div className="header-left">
-        <h1 onClick={() => {
-          console.log('Jootcamp 로고 클릭됨'); // 디버그: 로고 클릭 로그
-          navigate('/');
-        }}>Jootcamp</h1>
+        <h1 onClick={() => navigate('/')}>Jootcamp</h1>
         <nav className="nav">
           <ul>
-            <li><button onClick={() => {
-              console.log('자유게시판 버튼 클릭됨'); // 디버그: 자유게시판 버튼 클릭 로그
-              navigate('/freeboard');
-            }}>자유게시판</button></li>
+            <li><button onClick={() => navigate('/freeboard')}>자유게시판</button></li>
             <li><button onClick={() => navigate('/mypaths')}>My Paths</button></li>
             <li><button onClick={() => navigate('/mytracks')}>My Tracks</button></li>
             <li><button onClick={() => navigate('/myactivities')}>My Activities</button></li>
@@ -80,7 +89,6 @@ const Header = () => {
           </>
         )}
       </div>
-      <div>현재 user 상태: {JSON.stringify(user)}</div> {/* 디버그: 현재 user 상태 출력 */}
     </header>
   );
 };
