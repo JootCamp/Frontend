@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import './Header.css';
 
 const API_BASE_URL = 'http://13.125.19.45:8080';
@@ -12,36 +11,39 @@ const Header = ({ user, setUser }) => {
     console.log('Header: Checking login status...');
     fetch(`${API_BASE_URL}/isLogin`, {
       method: 'GET',
-      credentials: 'include', // 쿠키를 포함하여 요청
     })
     .then(response => {
       if (response.ok) {
         console.log('Header: Response OK, assuming user is logged in.');
-        return response.json(); // JSON 응답을 파싱합니다.
+        return response.json();
       } else {
-        throw new Error('Not logged in');
+        console.log('Header: Not logged in.');
+        setUser(null);
+        return null;
       }
     })
     .then(data => {
-      console.log('Header: User data:', data);
-      setUser({ loggedIn: true });
+      if (data && data.isLoggedIn) {
+        console.log('Header: User data:', data.user);
+        setUser(data.user); // 서버에서 받은 유저 데이터를 설정합니다.
+      } else {
+        setUser(null); // 로그인되지 않은 상태로 설정
+      }
     })
     .catch(error => {
       console.error('Error checking login status:', error);
       setUser(null);
     });
   }, [setUser]);
-  
 
   const handleLogout = () => {
     console.log('Header: Logging out...');
     fetch(`${API_BASE_URL}/logout`, {
       method: 'POST',
-      credentials: 'include', // 쿠키를 포함하여 요청
     })
     .then(() => {
       console.log('Header: Logout successful.');
-      setUser(null);
+      setUser(null); // 로그아웃 시 user 상태를 null로 설정
       navigate('/');
     })
     .catch(error => {
