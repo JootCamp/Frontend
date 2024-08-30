@@ -11,16 +11,15 @@ import ProfilePage from './pages/ProfilePage';
 import SignupPage from './pages/SignupPage';
 
 const App = () => {
-  const [user, setUser] = useState(null); // 로그인 상태를 관리하는 state
+  const [user, setUser] = useState(null); // 전역으로 로그인 상태 관리
 
   return (
     <Router>
-      {/* Header에 user와 setUser를 전달하여 상태를 관리 */}
       <Header user={user} setUser={setUser} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/login" element={<LoginPage setUser={setUser} />} />
+        <Route path="/login" element={<LoginPage setUser={setUser} />} /> {/* setUser 전달 */}
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/freeboard" element={<FreeBoard />} />
         <Route path="/profile" element={<ProfilePage />} />
