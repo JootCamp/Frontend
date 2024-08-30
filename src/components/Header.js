@@ -7,69 +7,77 @@ const Header = () => {
   const [user, setUser] = useState(null); // 로그인 상태를 관리할 state
   const navigate = useNavigate();
 
-  // 로그인 상태를 확인하는 useEffect
   useEffect(() => {
+    // 디버그: 페이지 로드 시 콘솔에 메시지 출력
+    console.log('Header component mounted.');
+
     const checkLoginStatus = () => {
-      // 쿠키 전체를 가져옴
+      // 모든 쿠키를 가져옴
       const allCookies = Cookies.get(); 
-      const sessionId = allCookies.JSESSIONID; // JSESSIONID 쿠키 값을 사용
-      
-      console.log('쿠키들:', allCookies); // 디버깅용
-      console.log('세션 ID:', sessionId); // 디버깅용
+      console.log('쿠키 전체:', allCookies); // 모든 쿠키를 디버깅용으로 출력
+
+      // JSESSIONID 쿠키 값 가져오기
+      const sessionId = allCookies.JSESSIONID; 
+      console.log('세션 ID:', sessionId); // JSESSIONID 값을 디버깅용으로 출력
 
       if (sessionId) {
-        // 세션 ID가 존재하면 로그인된 상태로 간주
         setUser({ sessionId }); 
-        console.log('User logged in with session ID:', sessionId);
+        console.log('로그인됨. 세션 ID:', sessionId);
       } else {
         setUser(null);
-        console.log('No session found, user not logged in');
+        console.log('로그인되지 않음.');
       }
     };
 
+    // 컴포넌트 마운트 시 로그인 상태 확인
     checkLoginStatus();
 
-    // 로그인 상태를 실시간으로 반영하기 위해 로그인 시 상태를 체크
+    // 로그인 상태가 변경될 때마다 실행 (추가적인 이벤트 리스너)
     window.addEventListener('login', checkLoginStatus);
 
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       window.removeEventListener('login', checkLoginStatus);
+      console.log('Header component unmounted.');
     };
   }, []);
 
-  // 로그아웃 함수
   const handleLogout = () => {
+    console.log('로그아웃 버튼 클릭됨.');
     // 모든 쿠키 삭제
-    Cookies.remove('JSESSIONID'); // 세션 쿠키 삭제
-    setUser(null); // 로그아웃 시 user 상태를 null로 설정
-    navigate('/'); // 로그아웃 후 메인 페이지로 이동
+    Cookies.remove('JSESSIONID'); 
+    setUser(null); 
+    console.log('로그아웃 완료. 세션 ID 쿠키 삭제됨.');
+    navigate('/'); 
   };
 
-  // 프로필 페이지로 이동 함수
   const handleProfile = () => {
+    console.log('내 정보 버튼 클릭됨.');
     if (user) {
+      console.log('로그인 상태, 프로필 페이지로 이동.');
       navigate('/profile');
     } else {
+      console.log('로그인되지 않음, 로그인 페이지로 이동.');
       navigate('/login');
     }
   };
 
-  // 회원가입 페이지로 이동 함수
   const handleSignup = () => {
+    console.log('회원가입 버튼 클릭됨.');
     navigate('/signup');
   };
 
   return (
     <header className="header">
       <div className="header-left">
-        <h1 onClick={() => navigate('/')}>Jootcamp</h1>
+        <h1 onClick={() => { console.log('Jootcamp 로고 클릭됨. 메인 페이지로 이동.'); navigate('/'); }}>Jootcamp</h1>
         <nav className="nav">
           <ul>
-            <li><button onClick={() => navigate('/freeboard')}>자유게시판</button></li>
-            <li><button onClick={() => navigate('/mypaths')}>My Paths</button></li>
-            <li><button onClick={() => navigate('/mytracks')}>My Tracks</button></li>
-            <li><button onClick={() => navigate('/myactivities')}>My Activities</button></li>
-            <li><button onClick={() => navigate('/teams')}>Teams</button></li>
+            <li><button onClick={() => { console.log('자유게시판 버튼 클릭됨.'); navigate('/freeboard'); }}>자유게시판</button></li>
+            <li><button onClick={() => { console.log('My Paths 버튼 클릭됨.'); navigate('/mypaths'); }}>My Paths</button></li>
+            <li><button onClick={() => { console.log('My Tracks 버튼 클릭됨.'); navigate('/mytracks'); }}>My Tracks</button></li>
+            <li><button onClick={() => { console.log('My Activities 버튼 클릭됨.'); navigate('/myactivities'); }}>My Activities</button></li>
+            <li><button onClick={() => { console.log('Teams 버튼 클릭됨.'); navigate('/teams'); }}>Teams</button></li>
           </ul>
         </nav>
       </div>
