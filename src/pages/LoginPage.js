@@ -19,6 +19,8 @@ const LoginPage = ({ setUser }) => {
       password,
     };
 
+    console.log('LoginPage: Attempting to log in with', loginData);
+
     fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
       headers: {
@@ -29,12 +31,15 @@ const LoginPage = ({ setUser }) => {
     })
       .then(response => {
         if (response.ok) {
+          console.log('LoginPage: Login successful.');
           const sessionId = Cookies.get('sessionId');
+          console.log('LoginPage: Retrieved sessionId from cookie:', sessionId);
           if (sessionId) {
             setUser({ sessionId }); // 로그인된 사용자 정보 설정
           }
           navigate('/'); // 메인 페이지로 이동
         } else {
+          console.log('LoginPage: Login failed.');
           setError('로그인에 실패했습니다. 다시 시도해 주세요.');
         }
       })

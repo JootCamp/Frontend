@@ -13,6 +13,8 @@ import SignupPage from './pages/SignupPage';
 const App = () => {
   const [user, setUser] = useState(null); // 전역으로 로그인 상태 관리
 
+  console.log('App: Current user state:', user);
+
   return (
     <Router>
       <Header user={user} setUser={setUser} />

@@ -9,14 +9,17 @@ const Header = ({ user, setUser }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('Header: Checking login status...');
     fetch(`${API_BASE_URL}/isLogin`, {
       method: 'GET',
       credentials: 'include', // 쿠키를 포함하여 요청
     })
     .then(response => {
       if (response.status === 401) {
+        console.log('Header: Not logged in.');
         setUser(null);
       } else if (response.ok) {
+        console.log('Header: Logged in.');
         return response.json();
       } else {
         throw new Error('Failed to verify login status');
@@ -24,6 +27,7 @@ const Header = ({ user, setUser }) => {
     })
     .then(data => {
       if (data && data.isLoggedIn) {
+        console.log('Header: User data received:', data.user);
         setUser(data.user);
       }
     })
@@ -34,11 +38,13 @@ const Header = ({ user, setUser }) => {
   }, [setUser]);
 
   const handleLogout = () => {
+    console.log('Header: Logging out...');
     fetch(`${API_BASE_URL}/logout`, {
       method: 'POST',
       credentials: 'include', // 쿠키를 포함하여 요청
     })
     .then(() => {
+      console.log('Header: Logout successful.');
       setUser(null);
       navigate('/');
     })
@@ -48,6 +54,7 @@ const Header = ({ user, setUser }) => {
   };
 
   const handleProfile = () => {
+    console.log('Header: Profile button clicked.');
     if (user) {
       navigate('/profile');
     } else {
@@ -56,8 +63,11 @@ const Header = ({ user, setUser }) => {
   };
 
   const handleSignup = () => {
+    console.log('Header: Signup button clicked.');
     navigate('/signup');
   };
+
+  console.log('Header: Rendering with user state:', user);
 
   return (
     <header className="header">
