@@ -17,18 +17,21 @@ const Header = ({ user, setUser }) => {
     .then(response => {
       if (response.ok) {
         console.log('Header: Response OK, assuming user is logged in.');
-        setUser({ loggedIn: true }); // 유저 정보와 관계없이 로그인된 상태로 처리
-        return response.json();
+        return response.json(); // JSON 응답을 파싱합니다.
       } else {
-        console.log('Header: Not logged in.');
-        setUser(null);
+        throw new Error('Not logged in');
       }
+    })
+    .then(data => {
+      console.log('Header: User data:', data);
+      setUser({ loggedIn: true });
     })
     .catch(error => {
       console.error('Error checking login status:', error);
       setUser(null);
     });
   }, [setUser]);
+  
 
   const handleLogout = () => {
     console.log('Header: Logging out...');

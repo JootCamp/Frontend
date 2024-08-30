@@ -13,14 +13,12 @@ const LoginPage = ({ setUser }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
+  
     const loginData = {
       email,
       password,
     };
-
-    console.log('LoginPage: Attempting to log in with', loginData);
-
+  
     fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
       headers: {
@@ -29,25 +27,24 @@ const LoginPage = ({ setUser }) => {
       body: JSON.stringify(loginData),
       credentials: 'include', // 쿠키를 포함하여 요청
     })
-      .then(response => {
-        if (response.ok) {
-          console.log('LoginPage: Login successful.');
-          const sessionId = Cookies.get('sessionId');
-          console.log('LoginPage: Retrieved sessionId from cookie:', sessionId);
-          if (sessionId) {
-            setUser({ sessionId }); // 로그인된 사용자 정보 설정
-          }
-          navigate('/'); // 메인 페이지로 이동
-        } else {
-          console.log('LoginPage: Login failed.');
-          setError('로그인에 실패했습니다. 다시 시도해 주세요.');
+    .then(response => {
+      if (response.ok) {
+        console.log('Login successful');
+        const sessionId = Cookies.get('sessionId');
+        if (sessionId) {
+          setUser({ sessionId });
         }
-      })
-      .catch(error => {
-        console.error('Error logging in:', error);
-        setError('서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.');
-      });
+        navigate('/');
+      } else {
+        setError('로그인에 실패했습니다. 다시 시도해 주세요.');
+      }
+    })
+    .catch(error => {
+      console.error('Error logging in:', error);
+      setError('서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.');
+    });
   };
+  
 
   return (
     <div className="login-container">
