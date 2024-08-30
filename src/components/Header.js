@@ -15,20 +15,13 @@ const Header = ({ user, setUser }) => {
       credentials: 'include', // 쿠키를 포함하여 요청
     })
     .then(response => {
-      if (response.status === 401) {
-        console.log('Header: Not logged in.');
-        setUser(null);
-      } else if (response.ok) {
-        console.log('Header: Logged in.');
+      if (response.ok) {
+        console.log('Header: Response OK, assuming user is logged in.');
+        setUser({ loggedIn: true }); // 유저 정보와 관계없이 로그인된 상태로 처리
         return response.json();
       } else {
-        throw new Error('Failed to verify login status');
-      }
-    })
-    .then(data => {
-      if (data && data.isLoggedIn) {
-        console.log('Header: User data received:', data.user);
-        setUser(data.user);
+        console.log('Header: Not logged in.');
+        setUser(null);
       }
     })
     .catch(error => {
