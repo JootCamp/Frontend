@@ -5,26 +5,20 @@ import './NewPost.css';
 const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const NewPost = () => {
-  const [title, setTitle] = useState(''); // 제목 상태 관리
-  const [content, setContent] = useState(''); // 내용 상태 관리
-  const { boardId } = useParams(); // URL에서 boardId를 가져옴
-  const navigate = useNavigate(); // 페이지 이동을 위한 훅
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const { boardId } = useParams();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!boardId) {
-      console.error('boardId is undefined.');
-      return;
-    }
-
     const newPost = {
       title,
       content,
-      bId: boardId, // boardId를 bId로 설정
+      bId: boardId, // 게시판 ID 포함
     };
-    
-    // API 호출하여 새로운 게시글 생성
+
     fetch(`${API_BASE_URL}/boards/${boardId}/posts`, {
       method: 'POST',
       headers: {
@@ -39,7 +33,7 @@ const NewPost = () => {
         return response.json();
       })
       .then(() => {
-        navigate(`/boards/${boardId}`); // 성공 시 해당 게시판 페이지로 이동
+        navigate(`/boards/${boardId}`);
       })
       .catch(error => console.error('Error creating post:', error));
   };
