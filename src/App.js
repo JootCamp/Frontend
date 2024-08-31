@@ -9,11 +9,11 @@ import NewPost from './pages/NewPost';
 import PostDetail from './pages/PostDetail';
 import ProfilePage from './pages/ProfilePage';
 import SignupPage from './pages/SignupPage';
+import Playground from './pages/Playground'; // 놀이터 페이지 추가
+import CreateBoard from './pages/CreateBoard'; // 게시판 생성 페이지 추가
 
 const App = () => {
   const [user, setUser] = useState(null); // 전역으로 로그인 상태 관리
-
-  console.log('App: Current user state:', user);
 
   return (
     <Router>
@@ -31,6 +31,10 @@ const App = () => {
         <Route path="/boards/:boardId/new-post" element={<NewPost />} />
         <Route path="/boards/:boardId/posts/:postId" element={<PostDetail />} />
         <Route path="/boards/:boardId/posts/:postId/edit" element={<NewPost />} /> {/* 수정 시 NewPost 재사용 */}
+        
+        {/* 놀이터 및 게시판 생성 관련 라우트 */}
+        <Route path="/playground" element={<Playground />} />
+        <Route path="/create-board" element={<CreateBoard />} />
       </Routes>
     </Router>
   );
