@@ -27,8 +27,14 @@ const LoginPage = ({ setUser }) => {
     })
       .then(response => {
         if (response.ok) {
-          // 로그인 성공 시 서버로부터 사용자의 정보를 받아와서 상태를 업데이트
-          return response.json(); // 서버가 반환하는 유저 정보를 받아옴
+          console.log('Login successful');
+          // 서버에서 JSON 응답이 없는 경우 처리
+          if (response.headers.get('content-length') === '0') {
+            setUser({ loggedIn: true }); // 사용자 상태를 간단히 loggedIn: true로 설정
+          } else {
+            return response.json(); // 응답이 JSON인 경우에만 파싱
+          }
+          navigate('/'); // 메인 페이지로 이동
         } else {
           setError('로그인에 실패했습니다. 다시 시도해 주세요.');
           throw new Error('Login failed');
@@ -36,9 +42,8 @@ const LoginPage = ({ setUser }) => {
       })
       .then(data => {
         if (data) {
-          console.log('Login successful:', data);
+          console.log('User data received:', data);
           setUser(data); // 서버에서 받은 유저 정보를 설정
-          navigate('/'); // 메인 페이지로 이동
         }
       })
       .catch(error => {
