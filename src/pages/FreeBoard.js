@@ -5,11 +5,10 @@ import './FreeBoard.css';
 const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const FreeBoard = () => {
-  const [posts, setPosts] = useState([]); // 게시글 데이터를 관리할 상태
-  const { boardId } = useParams(); // 현재 게시판 ID 가져오기
+  const [posts, setPosts] = useState([]);
+  const { boardId } = useParams();
   const navigate = useNavigate();
 
-  // 게시글 목록 조회
   useEffect(() => {
     fetch(`${API_BASE_URL}/boards/${boardId}/posts?size=20&page=1`)
       .then(response => response.json())
@@ -17,17 +16,14 @@ const FreeBoard = () => {
       .catch(error => console.error('Error fetching posts:', error));
   }, [boardId]);
 
-  // 게시글 클릭 시 게시글 상세 페이지로 이동
   const handleViewPost = (postId) => {
     navigate(`/boards/${boardId}/posts/${postId}`);
   };
 
-  // 게시글 작성 페이지로 이동
   const handleCreatePost = () => {
     navigate(`/boards/${boardId}/new-post`);
   };
 
-  // 게시글 삭제
   const handleDeletePost = (postId) => {
     fetch(`${API_BASE_URL}/boards/${boardId}/posts`, {
       method: 'DELETE',
@@ -48,8 +44,8 @@ const FreeBoard = () => {
       {posts.length > 0 ? (
         <div className="post-list">
           {posts.map(post => (
-            <div key={post.pId} className="post-item">
-              <div className="post-info" onClick={() => handleViewPost(post.pId)}>
+            <div key={post.pId} className="post-item" onClick={() => handleViewPost(post.pId)}>
+              <div className="post-info">
                 <h3 className="post-title">{post.title}</h3>
                 <div className="post-meta">
                   <span className="post-author">작성자: {post.writer}</span>
@@ -58,8 +54,8 @@ const FreeBoard = () => {
                 </div>
               </div>
               <div className="post-actions">
-                <button onClick={() => handleViewPost(post.pId)}>보기</button>
-                <button onClick={() => handleDeletePost(post.pId)}>삭제</button>
+                <button className="view-button">보기</button>
+                <button className="delete-button" onClick={(e) => {e.stopPropagation(); handleDeletePost(post.pId)}}>삭제</button>
               </div>
             </div>
           ))}

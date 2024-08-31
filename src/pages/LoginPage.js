@@ -13,10 +13,7 @@ const LoginPage = ({ setUser }) => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    const loginData = {
-      email,
-      password,
-    };
+    const loginData = { email, password };
 
     fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
@@ -27,14 +24,12 @@ const LoginPage = ({ setUser }) => {
     })
       .then(response => {
         if (response.ok) {
-          console.log('Login successful');
-          // 서버에서 JSON 응답이 없는 경우 처리
           if (response.headers.get('content-length') === '0') {
-            setUser({ loggedIn: true }); // 사용자 상태를 간단히 loggedIn: true로 설정
+            setUser({ loggedIn: true });
           } else {
-            return response.json(); // 응답이 JSON인 경우에만 파싱
+            return response.json();
           }
-          navigate('/'); // 메인 페이지로 이동
+          navigate('/');
         } else {
           setError('로그인에 실패했습니다. 다시 시도해 주세요.');
           throw new Error('Login failed');
@@ -42,8 +37,7 @@ const LoginPage = ({ setUser }) => {
       })
       .then(data => {
         if (data) {
-          console.log('User data received:', data);
-          setUser(data); // 서버에서 받은 유저 정보를 설정
+          setUser(data);
         }
       })
       .catch(error => {
@@ -56,7 +50,7 @@ const LoginPage = ({ setUser }) => {
     <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
         <h2>로그인</h2>
-        {error && <p className="error-message">{error}</p>} {/* 오류 메시지 표시 */}
+        {error && <p className="error-message">{error}</p>}
         <input
           type="email"
           placeholder="이메일"
