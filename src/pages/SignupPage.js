@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SignupPage.css';
+import '../style/SignupPage.css';
+import { API_BASE_URL } from '../config';
 
-const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const SignupPage = () => {
-  const [name, setName] = useState(''); // 사용자 이름
-  const [email, setEmail] = useState(''); // 이메일
-  const [password, setPassword] = useState(''); // 비밀번호
-  const [confirmPassword, setConfirmPassword] = useState(''); // 비밀번호 확인
-  const [nickname, setNickname] = useState(''); // 닉네임
-  const [error, setError] = useState(''); // 오류 메시지
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSignup = (e) => {
@@ -21,13 +21,11 @@ const SignupPage = () => {
     }
   
     const signupData = {
-      name,        // 이름
-      email,       // 이메일
-      password,    // 비밀번호
-      nickname,    // 닉네임
+      name,
+      email,
+      password,
+      nickname,
     };
-  
-    console.log('Signup Data:', signupData); // 전송될 데이터를 콘솔에 출력
   
     fetch(`${API_BASE_URL}/signup`, {
       method: 'POST',
@@ -43,24 +41,20 @@ const SignupPage = () => {
         return response.json();
       })
       .then(data => {
-        if (data.success) {
-          navigate('/login'); // 회원가입 성공 시 로그인 페이지로 이동
-        } else {
-          setError('회원가입에 실패했습니다. 다시 시도해 주세요.');
-        }
+        // API 명세서에 따라 'success' 필드 대신 200 OK로 판단
+        navigate('/login'); // 회원가입 성공 시 로그인 페이지로 이동
       })
       .catch(error => {
         console.error('Error signing up:', error);
         setError('서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.');
       });
   };
-  
 
   return (
     <div className="signup-container">
       <h2>회원가입</h2>
       <form onSubmit={handleSignup} className="signup-form">
-        {error && <p className="error-message">{error}</p>} {/* 오류 메시지 표시 */}
+        {error && <p className="error-message">{error}</p>}
         <input
           type="text"
           placeholder="이름"

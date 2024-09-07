@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import './NewPost.css';
+import '../style/NewPost.css';
+import { API_BASE_URL } from '../config';
 
-const API_BASE_URL = 'http://13.125.19.45:8080';
 
 const NewPost = () => {
   const [title, setTitle] = useState('');

@@ -1,7 +1,7 @@
 // src/components/Header.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Header.css';
+import '../style/Header.css';
 
 const Header = ({ user, setUser }) => {
   const navigate = useNavigate();
