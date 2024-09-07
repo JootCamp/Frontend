@@ -1,5 +1,5 @@
 import React from 'react';
-import './AnnouncementSection.css';
+import '../style/AnnouncementSection.css';
 
 const AnnouncementSection = () => {
   return (

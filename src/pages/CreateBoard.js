@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './CreateBoard.css';
-
-const API_BASE_URL = 'http://13.125.19.45:8080';
+import '../style/CreateBoard.css';
+import { API_BASE_URL } from '../config';
 
 const CreateBoard = () => {
   const [title, setTitle] = useState('');

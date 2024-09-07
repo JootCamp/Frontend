@@ -1,48 +1,52 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './LoginPage.css';
-
-const API_BASE_URL = 'http://13.125.19.45:8080';
+import '../style/LoginPage.css';
+import { API_BASE_URL } from '../config';
 
 const LoginPage = ({ setUser }) => {
+  // 이메일과 비밀번호를 입력받기 위한 상태 변수
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // 에러 메시지를 저장하기 위한 상태 변수
   const [error, setError] = useState('');
+  // 페이지 이동을 위한 navigate 함수
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // 폼 제출 시 페이지 리로드 방지
 
-    const loginData = { email, password };
+    const loginData = { email, password }; // 서버에 전송할 로그인 데이터
 
+    // 서버에 로그인 요청을 보냄
     fetch(`${API_BASE_URL}/login`, {
-      method: 'POST',
+      method: 'POST', // HTTP 메서드로 POST 사용
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json', // JSON 형식으로 데이터 전송
       },
-      body: JSON.stringify(loginData),
+      body: JSON.stringify(loginData), // 로그인 데이터를 JSON으로 변환하여 전송
     })
       .then(response => {
-        if (response.ok) {
+        if (response.ok) { // 서버가 200 OK 응답을 보낸 경우
           if (response.headers.get('content-length') === '0') {
+            // 서버에서 응답 데이터가 없을 경우, 간단히 로그인 상태로 설정
             setUser({ loggedIn: true });
           } else {
-            return response.json();
+            return response.json(); // 서버에서 응답 데이터가 있는 경우 JSON으로 파싱
           }
-          navigate('/');
+          navigate('/'); // 로그인 성공 시 메인 페이지로 이동
         } else {
-          setError('로그인에 실패했습니다. 다시 시도해 주세요.');
-          throw new Error('Login failed');
+          setError('로그인에 실패했습니다. 다시 시도해 주세요.'); // 로그인 실패 시 에러 메시지 설정
+          throw new Error('Login failed'); // 에러를 발생시켜 catch 블록으로 이동
         }
       })
       .then(data => {
         if (data) {
-          setUser(data);
+          setUser(data); // 유저 정보를 상태에 설정
         }
       })
       .catch(error => {
-        console.error('Error logging in:', error);
-        setError('서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.');
+        console.error('Error logging in:', error); // 콘솔에 에러 출력
+        setError('서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.'); // 서버 오류 발생 시 에러 메시지 설정
       });
   };
 
@@ -50,22 +54,22 @@ const LoginPage = ({ setUser }) => {
     <div className="login-container">
       <form onSubmit={handleLogin} className="login-form">
         <h2>로그인</h2>
-        {error && <p className="error-message">{error}</p>}
+        {error && <p className="error-message">{error}</p>} {/* 에러 메시지 표시 */}
         <input
           type="email"
           placeholder="이메일"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)} // 이메일 입력 시 상태 업데이트
           required
         />
         <input
           type="password"
           placeholder="비밀번호"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)} // 비밀번호 입력 시 상태 업데이트
           required
         />
-        <button type="submit">로그인</button>
+        <button type="submit">로그인</button> {/* 로그인 버튼 */}
       </form>
     </div>
   );

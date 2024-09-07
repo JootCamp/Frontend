@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import './FreeBoard.css';
-
-const API_BASE_URL = 'http://13.125.19.45:8080';
+import '../style/FreeBoard.css';
+import { API_BASE_URL } from '../config';
 
 const FreeBoard = () => {
   const [posts, setPosts] = useState([]);

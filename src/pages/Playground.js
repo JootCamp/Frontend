@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Playground.css';
+import '../style/Playground.css';
+import { API_BASE_URL } from '../config';
 
-const API_BASE_URL = 'http://13.125.19.45:8080';
+
 
 const Playground = () => {
   const [boards, setBoards] = useState([]);

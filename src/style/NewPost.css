@@ -5,7 +5,7 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  color: #333; /* 글자 색깔 테마를 #333으로 통일 */
+  color: #333;
 }
 
 h2 {
@@ -25,7 +25,7 @@ h2 {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
-  color: #333; /* 글자 색깔 테마를 #333으로 통일 */
+  color: #333;
 }
 
 .new-post-form textarea {
@@ -41,6 +41,9 @@ h2 {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  position: fixed; /* 고정된 위치로 설정 */
+  right: 2rem;     /* 오른쪽 하단에 고정 */
+  bottom: 2rem;
 }
 
 .submit-button:hover {
