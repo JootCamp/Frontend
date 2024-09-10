@@ -24,6 +24,7 @@ const LoginPage = ({ setUser }) => {
         'Content-Type': 'application/json', // JSON 형식으로 데이터 전송
       },
       body: JSON.stringify(loginData), // 로그인 데이터를 JSON으로 변환하여 전송
+      credentials: 'include' //쿠키 확인
     })
       .then(response => {
         if (response.ok) { // 서버가 200 OK 응답을 보낸 경우

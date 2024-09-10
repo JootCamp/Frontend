@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../style/CreateBoard.css';
 import { API_BASE_URL } from '../config';
 
-const CreateBoard = () => {
+const CreateBoard = ({ user }) => { // user 객체를 props로 받음
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
@@ -15,6 +15,9 @@ const CreateBoard = () => {
     const newBoard = {
       title,
       description,
+      userId: user.id,       // 명세에 맞게 userId 포함
+      userEmail: user.email, // userEmail 포함
+      nickname: user.nickname // nickname 포함
     };
 
     fetch(`${API_BASE_URL}/boards`, {
