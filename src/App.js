@@ -61,9 +61,9 @@ const App = () => {
 
         {/* 게시판 관련 라우트 */}
         <Route path="/boards/:boardId" element={<FreeBoard />} />
-        <Route path="/boards/:boardId/new-post" element={<NewPost />} />
-        <Route path="/boards/:boardId/posts/:postId" element={<PostDetail />} />
-        <Route path="/boards/:boardId/posts/:postId/edit" element={<NewPost />} /> {/* 수정 시 NewPost 재사용 */}
+        <Route path="/boards/:boardId/new-post" element={<NewPost user={user} />} />
+        <Route path="/boards/:boardId/posts/:postId" element={<PostDetail user={user}/>} />
+        <Route path="/boards/:boardId/posts/:postId/edit" element={<NewPost user={user}/>} /> {/* 수정 시 NewPost 재사용 */}
 
         {/* 놀이터 및 게시판 생성 관련 라우트 */}
         <Route path="/playground" element={<Playground />} />
