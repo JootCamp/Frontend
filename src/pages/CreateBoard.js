@@ -12,6 +12,11 @@ const CreateBoard = ({ user }) => { // user 객체를 props로 받음
   const handleCreateBoard = (e) => {
     e.preventDefault();
 
+    if (!user || !user.id) {
+      setError('사용자 정보가 누락되었습니다. 로그인 후 시도해 주세요.');
+      return;
+    }
+    
     const newBoard = {
       title,
       description,

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import Home from './pages/Home';
-import About from './pages/About';
 import LoginPage from './pages/LoginPage';
 import FreeBoard from './pages/FreeBoard';
 import NewPost from './pages/NewPost';
@@ -19,8 +17,6 @@ const App = () => {
     <Router>
       <Header user={user} setUser={setUser} />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
         <Route path="/login" element={<LoginPage setUser={setUser} />} /> {/* setUser 전달 */}
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/freeboard" element={<FreeBoard />} />

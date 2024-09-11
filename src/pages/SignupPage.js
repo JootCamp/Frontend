@@ -34,21 +34,20 @@ const SignupPage = () => {
       },
       body: JSON.stringify(signupData),
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('회원가입 요청이 실패했습니다.');
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
-        // API 명세서에 따라 'success' 필드 대신 200 OK로 판단
-        navigate('/login'); // 회원가입 성공 시 로그인 페이지로 이동
+        if (data === true) { // API 명세서에 따라 true를 성공으로 간주
+          navigate('/login'); // 회원가입 성공 시 로그인 페이지로 이동
+        } else {
+          setError('회원가입에 실패했습니다. 다시 시도해 주세요.');
+        }
       })
       .catch(error => {
         console.error('Error signing up:', error);
         setError('서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.');
       });
   };
+  
 
   return (
     <div className="signup-container">
