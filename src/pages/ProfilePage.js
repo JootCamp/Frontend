@@ -1,9 +1,10 @@
 import React from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext'; // AuthContext 사용 시
 import '../style/ProfilePage.css';
+import { API_BASE_URL } from '../config';
 
 const ProfilePage = () => {
-  const { user } = useAuth();
+  const { user } = useAuth(); // AuthContext에서 user 가져오기
 
   return (
     <div className="profile-container">

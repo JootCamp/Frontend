@@ -24,26 +24,28 @@ const LoginPage = ({ setUser }) => {
         'Content-Type': 'application/json', // JSON 형식으로 데이터 전송
       },
       body: JSON.stringify(loginData), // 로그인 데이터를 JSON으로 변환하여 전송
-      credentials: 'include' //쿠키 확인
+      credentials: 'include', // 쿠키 포함
     })
       .then(response => {
         if (response.ok) { // 서버가 200 OK 응답을 보낸 경우
-          if (response.headers.get('content-length') === '0') {
-            // 서버에서 응답 데이터가 없을 경우, 간단히 로그인 상태로 설정
-            setUser({ loggedIn: true });
-          } else {
-            return response.json(); // 서버에서 응답 데이터가 있는 경우 JSON으로 파싱
-          }
-          navigate('/'); // 로그인 성공 시 메인 페이지로 이동
+          // 로그인 성공 후 사용자 정보를 가져오기 위해 /isLogin 호출
+          return fetch(`${API_BASE_URL}/isLogin`, {
+            credentials: 'include', // 쿠키 포함
+          });
         } else {
           setError('로그인에 실패했습니다. 다시 시도해 주세요.'); // 로그인 실패 시 에러 메시지 설정
           throw new Error('Login failed'); // 에러를 발생시켜 catch 블록으로 이동
         }
       })
-      .then(data => {
-        if (data) {
-          setUser(data); // 유저 정보를 상태에 설정
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('사용자 정보 가져오기에 실패했습니다.');
         }
+        return response.json(); // /isLogin이 JSON 응답을 반환한다고 가정
+      })
+      .then(data => {
+        setUser(data); // 유저 정보를 상태에 설정
+        navigate('/'); // 로그인 성공 시 메인 페이지로 이동
       })
       .catch(error => {
         console.error('Error logging in:', error); // 콘솔에 에러 출력

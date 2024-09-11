@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../style/CreateBoard.css';
 import { API_BASE_URL } from '../config';
 
-const CreateBoard = ({ user }) => { // user 객체를 props로 받음
+const CreateBoard = ({ user }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
@@ -16,13 +15,13 @@ const CreateBoard = ({ user }) => { // user 객체를 props로 받음
       setError('사용자 정보가 누락되었습니다. 로그인 후 시도해 주세요.');
       return;
     }
-    
+
     const newBoard = {
       title,
       description,
-      userId: user.id,       // 명세에 맞게 userId 포함
-      userEmail: user.email, // userEmail 포함
-      nickname: user.nickname // nickname 포함
+      userId: user.id,       // user 객체가 존재할 때만 사용
+      userEmail: user.email,
+      nickname: user.nickname,
     };
 
     fetch(`${API_BASE_URL}/boards`, {
@@ -31,6 +30,7 @@ const CreateBoard = ({ user }) => { // user 객체를 props로 받음
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newBoard),
+      credentials: 'include', // 쿠키 포함
     })
       .then(response => {
         if (!response.ok) {
@@ -39,7 +39,7 @@ const CreateBoard = ({ user }) => { // user 객체를 props로 받음
         return response.json();
       })
       .then(() => {
-        navigate('/playground'); // 생성 후 놀이터 페이지로 이동
+        navigate('/playground');
       })
       .catch(error => {
         console.error('Error creating board:', error);
@@ -65,7 +65,7 @@ const CreateBoard = ({ user }) => { // user 객체를 props로 받음
           onChange={(e) => setDescription(e.target.value)}
           required
         />
-        <button type="submit" className="create-button">생성</button>
+        <button type="submit">생성</button>
       </form>
     </div>
   );
