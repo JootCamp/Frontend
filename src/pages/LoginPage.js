@@ -13,39 +13,43 @@ const LoginPage = ({ setUser }) => {
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
-    e.preventDefault();
-  
-    const loginData = { email, password };
-  
-    // 서버에 로그인 요청
+    e.preventDefault(); // 폼 제출 시 페이지 리로드 방지
+
+    const loginData = { email, password }; // 서버에 전송할 로그인 데이터
+
+    // 서버에 로그인 요청을 보냄
     fetch(`${API_BASE_URL}/login`, {
-      method: 'POST',
+      method: 'POST', // HTTP 메서드로 POST 사용
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json', // JSON 형식으로 데이터 전송
       },
-      body: JSON.stringify(loginData),
-      credentials: 'include', // 쿠키 포함
+      body: JSON.stringify(loginData), // 로그인 데이터를 JSON으로 변환하여 전송
+      credentials: 'include' //쿠키 확인
     })
       .then(response => {
-        if (response.ok) {
-          return response.json(); // 로그인 성공 시 JSON 응답을 처리
+        if (response.ok) { // 서버가 200 OK 응답을 보낸 경우
+          if (response.headers.get('content-length') === '0') {
+            // 서버에서 응답 데이터가 없을 경우, 간단히 로그인 상태로 설정
+            setUser({ loggedIn: true });
+          } else {
+            return response.json(); // 서버에서 응답 데이터가 있는 경우 JSON으로 파싱
+          }
+          navigate('/'); // 로그인 성공 시 메인 페이지로 이동
         } else {
-          setError('로그인에 실패했습니다. 다시 시도해 주세요.');
-          throw new Error('Login failed');
+          setError('로그인에 실패했습니다. 다시 시도해 주세요.'); // 로그인 실패 시 에러 메시지 설정
+          throw new Error('Login failed'); // 에러를 발생시켜 catch 블록으로 이동
         }
       })
       .then(data => {
         if (data) {
-          setUser(data); // 유저 정보를 설정
-          navigate('/'); // 메인 페이지로 이동
+          setUser(data); // 유저 정보를 상태에 설정
         }
       })
       .catch(error => {
-        console.error('Error logging in:', error);
-        setError('서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.');
+        console.error('Error logging in:', error); // 콘솔에 에러 출력
+        setError('서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.'); // 서버 오류 발생 시 에러 메시지 설정
       });
   };
-  
 
   return (
     <div className="login-container">
