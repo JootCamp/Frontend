@@ -10,7 +10,7 @@ const FreeBoard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/boards/${boardId}/posts?size=20&page=1`)
+    fetch(`${API_BASE_URL}/boards/${boardId}/posts?size=20&page=0`)
       .then(response => response.json())
       .then(data => {
         setPosts(data.data || []); // API 명세서에 맞게 'data'로 접근
