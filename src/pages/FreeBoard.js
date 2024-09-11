@@ -32,12 +32,8 @@ const FreeBoard = () => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'userId': 1, // userId 등 필요한 정보는 헤더나 쿼리로 전달
       },
-      body: JSON.stringify({
-        userId: 1, // 추가: API 명세에 맞게 삭제 요청에 userId 등 전달
-        userEmail: 'user@example.com',
-        nickname: 'User',
-      }),
     })
       .then(() => {
         setPosts(posts.filter(post => post.id !== postId)); // API 명세서에 맞게 'id'로 삭제
