@@ -67,7 +67,7 @@ const App = () => {
 
         {/* 놀이터 및 게시판 생성 관련 라우트 */}
         <Route path="/playground" element={<Playground />} />
-        <Route path="/create-board" element={<CreateBoard />} />
+        <Route path="/create-board" element={<CreateBoard user={user} />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

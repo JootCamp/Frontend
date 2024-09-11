@@ -3,25 +3,29 @@ import { useNavigate, useParams } from 'react-router-dom';
 import '../style/NewPost.css';
 import { API_BASE_URL } from '../config';
 
-const NewPost = ({ user }) => { // user 객체를 props로 받아옴
+const NewPost = ({ user }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const { boardId } = useParams(); // boardId를 URL에서 가져옴
+  const { boardId } = useParams(); // URL에서 boardId 가져오기
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!user || !user.id) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+
     // 게시글 생성 요청에 필요한 데이터
     const newPost = {
       title,
       content,
-      userId: user.id, // userId는 사용자의 ID로 설정
-      userEmail: user.email, // 사용자의 이메일
-      nickname: user.nickname // 사용자의 닉네임
+      userId: user.id, // 사용자 정보 설정
+      userEmail: user.email,
+      nickname: user.nickname,
     };
 
-    // 게시글 생성 요청
     fetch(`${API_BASE_URL}/boards/${boardId}/posts`, {
       method: 'POST',
       headers: {
@@ -29,7 +33,7 @@ const NewPost = ({ user }) => { // user 객체를 props로 받아옴
       },
       body: JSON.stringify(newPost),
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error('게시글 생성에 실패했습니다.');
         }
@@ -38,7 +42,7 @@ const NewPost = ({ user }) => { // user 객체를 props로 받아옴
       .then(() => {
         navigate(`/boards/${boardId}`); // 게시글 생성 후 해당 게시판으로 이동
       })
-      .catch(error => console.error('Error creating post:', error));
+      .catch((error) => console.error('Error creating post:', error));
   };
 
   return (
@@ -63,5 +67,6 @@ const NewPost = ({ user }) => { // user 객체를 props로 받아옴
     </div>
   );
 };
+
 
 export default NewPost;
